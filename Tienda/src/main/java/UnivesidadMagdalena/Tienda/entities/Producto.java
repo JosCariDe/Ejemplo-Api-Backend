@@ -1,11 +1,13 @@
 package UnivesidadMagdalena.Tienda.entities;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.util.List;
 
 @Entity
 @Table(name = "productos")
+@Builder
 public class Producto extends BaseEntity{
         private String nombre;
         private Integer price;

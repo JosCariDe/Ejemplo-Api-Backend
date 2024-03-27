@@ -2,12 +2,14 @@ package UnivesidadMagdalena.Tienda.entities;
 
 import UnivesidadMagdalena.Tienda.entities.enumClass.Status;
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "pedidos")
+@Builder
 public class Pedido extends BaseEntity{
 
     @ManyToOne

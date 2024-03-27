@@ -5,11 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "pagos")
+@Builder
 public class Pago extends BaseEntity{
 
     @OneToOne(mappedBy = "pago")

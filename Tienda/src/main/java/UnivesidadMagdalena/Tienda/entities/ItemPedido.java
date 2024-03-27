@@ -1,9 +1,11 @@
 package UnivesidadMagdalena.Tienda.entities;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 @Entity
 @Table(name = "itemsPedidos")
+@Builder
 public class ItemPedido extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "id_pedido")
