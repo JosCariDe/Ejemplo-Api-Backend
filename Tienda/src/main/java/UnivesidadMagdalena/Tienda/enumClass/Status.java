@@ -1,4 +1,4 @@
-package UnivesidadMagdalena.Tienda.entities.enumClass;
+package UnivesidadMagdalena.Tienda.enumClass;
 
 public enum Status {
     PENDIENTE,

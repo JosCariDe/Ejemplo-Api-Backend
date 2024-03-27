@@ -1,6 +1,6 @@
 package UnivesidadMagdalena.Tienda.entities;
 
-import UnivesidadMagdalena.Tienda.entities.enumClass.Status;
+import UnivesidadMagdalena.Tienda.enumClass.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

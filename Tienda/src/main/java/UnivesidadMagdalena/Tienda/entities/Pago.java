@@ -1,8 +1,7 @@
 package UnivesidadMagdalena.Tienda.entities;
 
-import UnivesidadMagdalena.Tienda.entities.enumClass.MetodoPago;
+import UnivesidadMagdalena.Tienda.enumClass.MetodoPago;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
