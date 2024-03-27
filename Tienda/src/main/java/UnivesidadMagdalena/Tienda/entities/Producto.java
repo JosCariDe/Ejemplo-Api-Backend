@@ -18,4 +18,7 @@ public class Producto extends BaseEntity{
                 inverseJoinColumns = @JoinColumn(name = "id_pedido")
         )
         private List<Pedido> pedidos;
+
+        @OneToOne(mappedBy = "itemPedido")
+        private ItemPedido itemPedido;
 }
