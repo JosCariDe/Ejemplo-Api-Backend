@@ -9,7 +9,7 @@ public class ItemPedido extends BaseEntity{
     @JoinColumn(name = "id_pedido")
     private Pedido pedido;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_producto", referencedColumnName = "id")
     private Producto producto;
     private Integer cantidad;

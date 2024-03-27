@@ -16,9 +16,6 @@ public class Pedido extends BaseEntity{
     private LocalDateTime fechaPedido;
     private Status status;
 
-    @ManyToMany(mappedBy = "pedidos")
-    private List<Producto> productos;
-
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itemPedidos;
 
