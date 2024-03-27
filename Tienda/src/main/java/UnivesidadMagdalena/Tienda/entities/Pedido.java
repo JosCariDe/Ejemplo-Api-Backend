@@ -21,4 +21,8 @@ public class Pedido extends BaseEntity{
 
     @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itemPedidos;
+
+    @OneToOne
+    @JoinColumn(name = "id_pago", referencedColumnName = "id")
+    private Pago pago;
 }
