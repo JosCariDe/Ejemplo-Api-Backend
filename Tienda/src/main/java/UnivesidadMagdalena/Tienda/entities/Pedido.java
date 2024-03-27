@@ -25,4 +25,8 @@ public class Pedido extends BaseEntity{
     @OneToOne
     @JoinColumn(name = "id_pago", referencedColumnName = "id")
     private Pago pago;
+
+    @OneToOne
+    @JoinColumn(name = "id_envio", referencedColumnName = "id")
+    private DetalleEnvio DetalleEnvio;
 }
