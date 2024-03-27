@@ -18,4 +18,7 @@ public class Pedido extends BaseEntity{
 
     @ManyToMany(mappedBy = "pedidos")
     private List<Producto> productos;
+
+    @OneToMany(mappedBy = "pedido")
+    private List<ItemPedido> itemPedidos;
 }
