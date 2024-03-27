@@ -2,14 +2,20 @@ package UnivesidadMagdalena.Tienda.entities;
 
 import UnivesidadMagdalena.Tienda.entities.enumClass.Status;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
+@Data
 @Table(name = "pedidos")
 @Builder
+@AllArgsConstructor
 public class Pedido extends BaseEntity{
 
     @ManyToOne

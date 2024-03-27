@@ -3,15 +3,17 @@ package UnivesidadMagdalena.Tienda.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "clientes")
 @Builder
+@AllArgsConstructor
+@Data
+
 public class Cliente extends BaseEntity{
     private String nombre;
     private String email;

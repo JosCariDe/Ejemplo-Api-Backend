@@ -9,10 +9,10 @@ import lombok.*;
 import java.io.Serializable;
 
 @MappedSuperclass
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public abstract class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
