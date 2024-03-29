@@ -10,7 +10,7 @@ import org.w3c.dom.stylesheets.LinkStyle;
 import java.util.List;
 
 public interface ItemPedidoRepository extends JpaRepository<ItemPedido,Long> {
-    @Query("SELECT u FROM ItemPedido WHERE u.pedido.id = :idPedido")
+    @Query("SELECT u FROM ItemPedido u WHERE u.pedido.id = :idPedido")
     List<ItemPedido> buscarItemsPorIdPedido(@Param("idPedido") Long idPedido);
 
     List<ItemPedido> findByProducto(Producto producto);
