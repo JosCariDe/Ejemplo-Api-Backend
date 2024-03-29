@@ -22,6 +22,7 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
+    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime fechaPedido;
     @Enumerated(EnumType.STRING)
     private Status status;
