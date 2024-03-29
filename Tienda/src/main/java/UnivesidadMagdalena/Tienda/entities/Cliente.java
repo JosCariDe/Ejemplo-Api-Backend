@@ -1,20 +1,20 @@
 package UnivesidadMagdalena.Tienda.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "clientes")
 @Builder
 @AllArgsConstructor
 @Data
 
-public class Cliente extends BaseEntity{
+public class Cliente {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String nombre;
     private String email;
     private String direccion;

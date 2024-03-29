@@ -6,13 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @Table(name = "itemsPedidos")
 @Builder
 @AllArgsConstructor
-public class ItemPedido extends BaseEntity{
+public class ItemPedido {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "id_pedido")
     private Pedido pedido;

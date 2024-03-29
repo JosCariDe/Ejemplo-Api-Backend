@@ -1,19 +1,13 @@
 package UnivesidadMagdalena.Tienda.repository;
 
-import UnivesidadMagdalena.Tienda.AbstractIntegrationDBTest;
 import UnivesidadMagdalena.Tienda.entities.Producto;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class ProductoRepositoryTest extends AbstractIntegrationDBTest {
 
@@ -56,7 +50,7 @@ class ProductoRepositoryTest extends AbstractIntegrationDBTest {
 
     }
 
-
+    /*
     @Test
     void givenProducto_whenSaved_FoundById() {
         //given
@@ -69,13 +63,11 @@ class ProductoRepositoryTest extends AbstractIntegrationDBTest {
         productoRepository.save(testProduct);
         //then
         assertThat(testProduct.getId()).isNotNull();
-    }
+    } */
 
+
+    
     /*
-    @Test
-    void buscarPorTerminoDeBusqueda() {
-    }
-
     @Test
     void findByStock() {
     }

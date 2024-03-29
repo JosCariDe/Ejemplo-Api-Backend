@@ -1,21 +1,20 @@
 package UnivesidadMagdalena.Tienda.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "detalleEnvios")
 @Builder
 @Data
 @AllArgsConstructor
-public class DetalleEnvio extends BaseEntity {
-
+public class DetalleEnvio {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @OneToOne(mappedBy = "DetalleEnvio")
     private Pedido pedido;
     private String direccion;
