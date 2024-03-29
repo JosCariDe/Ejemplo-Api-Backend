@@ -16,7 +16,7 @@ import java.util.List;
 
 public class Cliente {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String nombre;
     private String email;

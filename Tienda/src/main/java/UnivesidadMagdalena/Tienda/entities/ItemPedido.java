@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 public class ItemPedido {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne
     @JoinColumn(name = "id_pedido")

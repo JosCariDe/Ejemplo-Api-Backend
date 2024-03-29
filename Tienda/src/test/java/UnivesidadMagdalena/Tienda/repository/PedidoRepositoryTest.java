@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class PedidoRepositoryTest {
+class PedidoRepositoryTest extends AbstractIntegrationDBTest{
 
     PedidoRepository pedidoRepository;
 
@@ -29,14 +29,17 @@ class PedidoRepositoryTest {
     void setUp() {
 
         pedidoRepository.deleteAll();
+        initMockPedidos();
 
     }
 
     void initMockPedidos() {
         Cliente cliente = Cliente.builder()
+                .id(4554L)
                 .nombre("Jose")
                 .build();
         Cliente cliente1 = Cliente.builder()
+                .id(35L)
                 .nombre("David")
                 .build();
 
@@ -54,7 +57,6 @@ class PedidoRepositoryTest {
         Pedido pedido1 = Pedido.builder()
                 .cliente(cliente1)
                 .status(Status.ENTREGADO)
-                .itemPedidos(itemPedidoList)
                 .build();
         pedidoRepository.save(pedido1);
 
@@ -67,6 +69,7 @@ class PedidoRepositoryTest {
     void givenAnPedido_whenSave_thenPedidoWithId() {
         //given
         Cliente cliente = Cliente.builder()
+                .id(252424L)
                 .nombre("Jose")
                 .build();
         List<ItemPedido> itemPedidoList = new ArrayList<>();
@@ -86,6 +89,10 @@ class PedidoRepositoryTest {
 
     @Test
     void findByFechaPedidoBetween() {
+        List<Pedido> pedidoList = pedidoRepository.findByFechaPedidoBetween(LocalDateTime.MIN, LocalDateTime.now());
+
+        assertThat(pedidoList.isEmpty()).isFalse();
+
     }
 
     @Test

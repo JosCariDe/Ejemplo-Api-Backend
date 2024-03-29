@@ -13,7 +13,7 @@ import lombok.*;
 @Getter
 public class DetalleEnvio {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @OneToOne(mappedBy = "DetalleEnvio")
     private Pedido pedido;
