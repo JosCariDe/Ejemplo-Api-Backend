@@ -23,6 +23,7 @@ public class Pago {
     private Pedido pedido;
     private Integer totalPago;
     private LocalDateTime fechaPago;
+    @Enumerated(EnumType.STRING)
     private MetodoPago metodoPago;
 
 }

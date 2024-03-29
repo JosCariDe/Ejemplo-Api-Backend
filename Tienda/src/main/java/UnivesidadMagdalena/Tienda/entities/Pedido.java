@@ -23,6 +23,7 @@ public class Pedido {
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
     private LocalDateTime fechaPedido;
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @OneToMany(mappedBy = "pedido")
