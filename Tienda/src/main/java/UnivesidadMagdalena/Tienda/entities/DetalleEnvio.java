@@ -1,16 +1,16 @@
 package UnivesidadMagdalena.Tienda.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Entity
 @Table(name = "detalleEnvios")
 @Builder
-@Data
+@NoArgsConstructor
 @AllArgsConstructor
+@Data
+@Setter
+@Getter
 public class DetalleEnvio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

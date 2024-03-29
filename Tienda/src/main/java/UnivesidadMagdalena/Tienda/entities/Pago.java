@@ -2,19 +2,19 @@ package UnivesidadMagdalena.Tienda.entities;
 
 import UnivesidadMagdalena.Tienda.enumClass.MetodoPago;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 
 @Entity
-@Data
 @Table(name = "pagos")
-@Builder
+@NoArgsConstructor
 @AllArgsConstructor
+@Data
+@Setter
+@Getter
+@Builder
 public class Pago {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

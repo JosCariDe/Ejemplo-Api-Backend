@@ -1,16 +1,16 @@
 package UnivesidadMagdalena.Tienda.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Entity
-@Data
 @Table(name = "itemsPedidos")
-@Builder
+@NoArgsConstructor
 @AllArgsConstructor
+@Data
+@Setter
+@Getter
+@Builder
 public class ItemPedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

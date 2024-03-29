@@ -6,11 +6,13 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Data
 @Table(name = "productos")
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Setter
+@Getter
+@Builder
 public class Producto {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

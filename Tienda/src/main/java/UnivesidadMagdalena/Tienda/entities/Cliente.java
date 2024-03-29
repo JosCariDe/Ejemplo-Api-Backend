@@ -8,8 +8,11 @@ import java.util.List;
 @Entity
 @Table(name = "clientes")
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Setter
+@Getter
 
 public class Cliente {
     @Id

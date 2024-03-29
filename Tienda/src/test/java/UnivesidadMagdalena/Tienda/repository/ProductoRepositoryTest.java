@@ -3,14 +3,13 @@ package UnivesidadMagdalena.Tienda.repository;
 import UnivesidadMagdalena.Tienda.entities.Producto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringRunner;
 
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class ProductoRepositoryTest extends AbstractIntegrationDBTest {
-
+class ProductoRepositoryTest extends AbstractIntegrationDBTest{
     ProductoRepository productoRepository;
 
     @Autowired
@@ -18,29 +17,21 @@ class ProductoRepositoryTest extends AbstractIntegrationDBTest {
         this.productoRepository = productoRepository;
     }
 
-    private void initMockProductos(){
-
+    void initMockProductos() {
         Producto producto = Producto.builder()
-                .nombre("Mantequilla")
-                .price(2500)
+                .nombre("mantequilla")
+                .price(1500)
                 .stock(64)
                 .build();
         productoRepository.save(producto);
 
         Producto producto1 = Producto.builder()
-                .nombre("Cereal")
+                .nombre("cereal")
                 .price(8500)
-                .stock(24)
+                .stock(18)
                 .build();
         productoRepository.save(producto1);
-
-        Producto producto2 = Producto.builder()
-                .nombre("Panela")
-                .price(1200)
-                .stock(120)
-                .build();
-        productoRepository.save(producto2);
-
+        productoRepository.flush();
     }
 
     @BeforeEach
@@ -50,29 +41,17 @@ class ProductoRepositoryTest extends AbstractIntegrationDBTest {
 
     }
 
-    /*
     @Test
-    void givenProducto_whenSaved_FoundById() {
+    void givenAnProducto_whenSave_thenProductoWithId() {
         //given
-        Producto testProduct = Producto.builder()
-                .nombre("Galleta")
-                .price(500)
-                .stock(80)
+        Producto producto = Producto.builder()
+                .nombre("vainilla")
+                .price(4500)
+                .stock(36)
                 .build();
         //when
-        productoRepository.save(testProduct);
+        Producto productoSave = productoRepository.save(producto);
         //then
-        assertThat(testProduct.getId()).isNotNull();
-    } */
-
-
-    
-    /*
-    @Test
-    void findByStock() {
+        assertThat(productoSave.getId()).isNotNull();
     }
-
-    @Test
-    void buscarPorPrecioMaximoYStockMaximo() {
-    } */
 }

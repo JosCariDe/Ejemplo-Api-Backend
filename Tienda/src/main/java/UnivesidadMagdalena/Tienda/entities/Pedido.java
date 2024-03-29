@@ -2,19 +2,19 @@ package UnivesidadMagdalena.Tienda.entities;
 
 import UnivesidadMagdalena.Tienda.enumClass.Status;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data
 @Table(name = "pedidos")
-@Builder
+@NoArgsConstructor
 @AllArgsConstructor
+@Data
+@Setter
+@Getter
+@Builder
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
