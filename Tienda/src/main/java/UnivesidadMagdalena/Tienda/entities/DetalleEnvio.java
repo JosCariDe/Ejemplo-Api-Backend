@@ -15,7 +15,7 @@ public class DetalleEnvio {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @OneToOne(mappedBy = "DetalleEnvio")
+    @OneToOne(mappedBy = "detalleEnvio")
     private Pedido pedido;
     private String direccion;
     private String transportadora;

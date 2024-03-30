@@ -3,6 +3,7 @@ package UnivesidadMagdalena.Tienda.service;
 import UnivesidadMagdalena.Tienda.dto.producto.ProductoDto;
 import UnivesidadMagdalena.Tienda.dto.producto.ProductoMapper;
 import UnivesidadMagdalena.Tienda.dto.producto.ProductoToSaveDto;
+import UnivesidadMagdalena.Tienda.entities.Producto;
 import UnivesidadMagdalena.Tienda.exception.ProductoNotFoundException;
 import UnivesidadMagdalena.Tienda.repository.ProductoRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class ProductoServiceImpl implements ProductoService{
     }
 
     @Override
-    public ProductoDto guardarProducto(ProductoToSaveDto producto) {
+    public ProductoDto guardarProducto(ProductoToSaveDto productoDto) {
         return null;
     }
 

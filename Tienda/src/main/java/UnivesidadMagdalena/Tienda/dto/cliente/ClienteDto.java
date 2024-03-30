@@ -13,6 +13,7 @@ public record ClienteDto(Long id,
                          List<PedidoDto> pedidos)
 {
     public List<PedidoDto> pedidos() {
+
         return Collections.unmodifiableList(pedidos);
     }
 

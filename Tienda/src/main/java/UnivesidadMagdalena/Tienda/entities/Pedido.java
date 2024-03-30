@@ -36,5 +36,5 @@ public class Pedido {
 
     @OneToOne
     @JoinColumn(name = "id_envio", referencedColumnName = "id")
-    private DetalleEnvio DetalleEnvio;
+    private DetalleEnvio detalleEnvio;
 }

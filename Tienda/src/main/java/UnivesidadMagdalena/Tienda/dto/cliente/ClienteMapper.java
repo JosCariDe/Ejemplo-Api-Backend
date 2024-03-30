@@ -2,6 +2,7 @@ package UnivesidadMagdalena.Tienda.dto.cliente;
 
 import UnivesidadMagdalena.Tienda.entities.Cliente;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 
 import java.util.List;
@@ -10,6 +11,10 @@ import java.util.List;
 public interface ClienteMapper {
 
     Cliente clienteDtoToCliente(ClienteDto clienteDto);
+
+
+    @Mapping(target = "pedidos", ignore = true)
+    Cliente clienteToSaveDtoToCliente(ClienteToSaveDto clienteToSaveDto);
 
     ClienteDto clienteToClienteDto(Cliente cliente);
 
