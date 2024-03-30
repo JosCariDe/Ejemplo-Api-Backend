@@ -22,41 +22,66 @@ public class ProductoServiceImpl implements ProductoService{
 
     @Override
     public ProductoDto guardarProducto(ProductoToSaveDto productoDto) {
-        return null;
+        Producto producto = productoMapper.productoToSaveDtoToProducti(productoDto);
+        Producto productoGuardado = productoRepository.save(producto);
+        return productoMapper.productoToProductoDto(productoGuardado);
     }
 
     @Override
-    public ProductoDto actualizarProducto(Long id, ProductoToSaveDto producto) {
-        return null;
+    public ProductoDto actualizarProducto(Long id, ProductoToSaveDto productoDto) {
+        return productoRepository.findById(id).map(productoInDb -> {
+            productoInDb.setNombre(productoDto.nombre());
+            productoInDb.setPrice(productoDto.price());
+            productoInDb.setStock(productoDto.stock());
+
+            Producto productoGuardado = productoRepository.save(productoInDb);
+
+            return productoMapper.productoToProductoDto(productoGuardado);
+        }).orElseThrow(() -> new ProductoNotFoundException("Producto no encontrado"));
     }
 
     @Override
     public ProductoDto buscarProductoPorId(Long id) throws ProductoNotFoundException {
-        return null;
+        Producto producto = productoRepository.findById(id)
+                .orElseThrow(() -> new ProductoNotFoundException("Producto no encontrado"));
+        return productoMapper.productoToProductoDto(producto);
     }
 
     @Override
-    public ProductoDto removerProducto(Long id) {
-        return null;
+    public void removerProducto(Long id) {
+        Producto productos= productoRepository.findById(id)
+                .orElseThrow(() -> new ProductoNotFoundException("Usuario no encontrado"));
+        productoRepository.delete(productos);
     }
 
     @Override
     public List<ProductoDto> getAllUsers() {
-        return null;
+        List<Producto> productos = productoRepository.findAll();
+        return productoMapper.productosToProductosDto(productos);
     }
 
     @Override
     public List<ProductoDto> buscarPorTerminoDeBusqueda(String termino) throws ProductoNotFoundException {
-        return null;
+        List<Producto> productos = productoRepository.buscarPorTerminoDeBusqueda(termino);
+        if (productos.isEmpty()) throw new ProductoNotFoundException("No se encontró ningun producto con la terminacion: " + termino);
+        return productoMapper.productosToProductosDto(productos);
     }
 
     @Override
     public List<ProductoDto> buscarPorStock(Integer cantidad) throws ProductoNotFoundException {
-        return null;
+
+        List<Producto> productos = productoRepository.findByStock(cantidad);
+        if(productos.isEmpty()) throw new ProductoNotFoundException("No se encontró ningun producto un stock de " + cantidad);
+
+        return productoMapper.productosToProductosDto(productos);
     }
 
     @Override
     public List<ProductoDto> buscarPorPrecioMaximoYStockMaximo(Integer precioMaximo, Integer stockMaximo) throws ProductoNotFoundException {
-        return null;
+
+        List<Producto> productos = productoRepository.buscarPorPrecioMaximoYStockMaximo(precioMaximo, stockMaximo);
+        if(productos.isEmpty()) throw new ProductoNotFoundException("No se econtró ningun producto con un stock maximo de " + stockMaximo + ", y un precio maximo de " + precioMaximo);
+        
+        return productoMapper.productosToProductosDto(productos);
     }
 }
