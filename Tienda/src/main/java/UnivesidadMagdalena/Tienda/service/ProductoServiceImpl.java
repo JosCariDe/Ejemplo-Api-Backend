@@ -81,7 +81,7 @@ public class ProductoServiceImpl implements ProductoService{
 
         List<Producto> productos = productoRepository.buscarPorPrecioMaximoYStockMaximo(precioMaximo, stockMaximo);
         if(productos.isEmpty()) throw new ProductoNotFoundException("No se econtró ningun producto con un stock maximo de " + stockMaximo + ", y un precio maximo de " + precioMaximo);
-        
+
         return productoMapper.productosToProductosDto(productos);
     }
 }
