@@ -1,4 +1,10 @@
 package UnivesidadMagdalena.Tienda.dto.detalleEnvio;
 
-public record DetalleEnvioDto() {
+import UnivesidadMagdalena.Tienda.dto.pedido.PedidoDto;
+
+public record DetalleEnvioDto(Long id,
+                              PedidoDto pedido,
+                              String direccion,
+                              String transportadora,
+                              Long numeroGuia) {
 }
