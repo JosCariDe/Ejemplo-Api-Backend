@@ -3,8 +3,8 @@ package UnivesidadMagdalena.Tienda.service;
 import UnivesidadMagdalena.Tienda.dto.detalleEnvio.DetalleEnvioDto;
 import UnivesidadMagdalena.Tienda.dto.detalleEnvio.DetalleEnvioMapper;
 import UnivesidadMagdalena.Tienda.entities.DetalleEnvio;
+import UnivesidadMagdalena.Tienda.enumClass.Status;
 import UnivesidadMagdalena.Tienda.exception.DetalleEnvioNotFoundException;
-import UnivesidadMagdalena.Tienda.model.Status;
 import UnivesidadMagdalena.Tienda.repository.DetalleEnvioRepository;
 import org.springframework.stereotype.Service;
 
@@ -39,22 +39,29 @@ public class DetalleEnvioServiceImpl implements DetalleEnvioService {
 
     @Override
     public DetalleEnvioDto buscarDetallesEnvioPorIdPedido(Long idPedido) throws DetalleEnvioNotFoundException {
-        DetalleEnvio detalleEnvio = detalleEnvioRepository.buscarDetallesEnvioPorIdPedido(idPedido)
-                .orElseThrow(() -> new DetalleEnvioNotFoundException("Detalle de envío no encontrado para el pedido con ID: " + idPedido));
-        return detalleEnvioMapper.detalleEnvioToDto(detalleEnvio);
+        DetalleEnvio detalleEnvio = detalleEnvioRepository.buscarDetallesEnvioPorIdPedido(idPedido);
+        if (detalleEnvio == null) {
+            throw new DetalleEnvioNotFoundException("Detalle de envío no encontrado para el pedido con ID: " + idPedido);
+        }
+        return detalleEnvioMapper.detalleEnvioToDetalleEnvioDto(detalleEnvio);
     }
+
 
     @Override
     public DetalleEnvioDto findByTransportadora(String transportadora) throws DetalleEnvioNotFoundException {
-        DetalleEnvio detalleEnvio = detalleEnvioRepository.findByTransportadora(transportadora)
-                .orElseThrow(() -> new DetalleEnvioNotFoundException("Detalle de envío no encontrado para la transportadora: " + transportadora));
-        return detalleEnvioMapper.detalleEnvioToDto(detalleEnvio);
+        DetalleEnvio detalleEnvio = detalleEnvioRepository.findByTransportadora(transportadora);
+        if (detalleEnvio == null) {
+            throw new DetalleEnvioNotFoundException("Detalle de envío no encontrado para la transportadora: " + transportadora);
+        }
+        return detalleEnvioMapper.detalleEnvioToDetalleEnvioDto(detalleEnvio);
     }
 
     @Override
     public DetalleEnvioDto buscarDetalleenvioPorEstadoDePedido(Status estadoPedido) throws DetalleEnvioNotFoundException {
-        DetalleEnvio detalleEnvio = detalleEnvioRepository.buscarDetalleenvioPorEstadoDePedido(estadoPedido)
-                .orElseThrow(() -> new DetalleEnvioNotFoundException("Detalle de envío no encontrado para el estado de pedido: " + estadoPedido));
-        return detalleEnvioMapper.detalleEnvioToDto(detalleEnvio);
+        DetalleEnvio detalleEnvio = detalleEnvioRepository.buscarDetalleenvioPorEstadoDePedido(estadoPedido);
+        if (detalleEnvio == null) {
+            throw new DetalleEnvioNotFoundException("Detalle de envío no encontrado para el estado de pedido: " + estadoPedido);
+        }
+        return detalleEnvioMapper.detalleEnvioToDetalleEnvioDto(detalleEnvio);
     }
 }
