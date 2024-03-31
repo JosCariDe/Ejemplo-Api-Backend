@@ -22,6 +22,12 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<ProductoDto>> otbenerTodosLosProductos() {
+        List<ProductoDto> productos = productoService.getAllProducto();
+        return ResponseEntity.ok().body(productos);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ProductoDto> obtenerProductoPorId(@PathVariable Long id) {
         try {
@@ -53,22 +59,22 @@ public class ProductoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> guardarProducto(@RequestBody ProductoToSaveDto productoDto) {
+    public ResponseEntity<ProductoDto> guardarProducto(@RequestBody ProductoToSaveDto productoDto) {
         try {
             ProductoDto productoGuardado = productoService.guardarProducto(productoDto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(productoGuardado);
+            return ResponseEntity.ok().body(productoGuardado);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar el producto");
+            return ResponseEntity.notFound().build();
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarProducto(@PathVariable Long id, @RequestBody ProductoToSaveDto productoDto) {
+    public ResponseEntity<ProductoDto> actualizarProducto(@PathVariable Long id, @RequestBody ProductoToSaveDto productoDto) {
         try {
             ProductoDto productoActualizado = productoService.actualizarProducto(id, productoDto);
-            return ResponseEntity.ok(productoActualizado);
+            return ResponseEntity.ok().body(productoActualizado);
         } catch (ProductoNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 

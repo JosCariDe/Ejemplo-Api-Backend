@@ -11,7 +11,7 @@ public interface ProductoService {
     ProductoDto actualizarProducto(Long id, ProductoToSaveDto producto);
     ProductoDto buscarProductoPorId(Long id) throws ProductoNotFoundException;
     void removerProducto(Long id);
-    List<ProductoDto> getAllUsers();
+    List<ProductoDto> getAllProducto();
     List<ProductoDto> buscarPorTerminoDeBusqueda(String termino) throws ProductoNotFoundException;
     List<ProductoDto> buscarEnStock() throws ProductoNotFoundException;
     List<ProductoDto> buscarPorPrecioMaximoYStockMaximo(Integer precioMaximo, Integer stockMaximo) throws ProductoNotFoundException;
