@@ -2,7 +2,9 @@ package UnivesidadMagdalena.Tienda.service;
 
 import UnivesidadMagdalena.Tienda.dto.pedido.PedidoDto;
 import UnivesidadMagdalena.Tienda.dto.pedido.PedidoMapper;
+import UnivesidadMagdalena.Tienda.entities.Cliente;
 import UnivesidadMagdalena.Tienda.entities.Pedido;
+import UnivesidadMagdalena.Tienda.enumClass.Status;
 import UnivesidadMagdalena.Tienda.exception.PedidoNotFoundException;
 import UnivesidadMagdalena.Tienda.repository.PedidoRepository;
 
@@ -71,11 +73,11 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
-    public List<PedidoDto> findByClienteAndStatus(Long idCliente, String status) {
-        List<Pedido> pedidos = pedidoRepository.findByClienteAndStatus(idCliente, status);
+    public List<PedidoDto> findByClienteAndStatus(Cliente cliente, Status status) {
+        List<Pedido> pedidos = pedidoRepository.findByClienteAndStatus(cliente, status);
         if (pedidos.isEmpty()) {
-            throw new PedidoNotFoundException("No se encontraron pedidos para el cliente con ID: " + idCliente +
-                    " y estado: " + status);
+            throw new PedidoNotFoundException("No se encontraron pedidos para el cliente con ID: " + cliente.getId() +
+                    " y estado: " + status.toString());
         }
         return pedidoMapper.pedidosToPedidosDto(pedidos);
 

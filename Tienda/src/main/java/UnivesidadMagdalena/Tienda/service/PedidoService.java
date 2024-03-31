@@ -1,6 +1,8 @@
 package UnivesidadMagdalena.Tienda.service;
 
 import UnivesidadMagdalena.Tienda.dto.pedido.PedidoDto;
+import UnivesidadMagdalena.Tienda.entities.Cliente;
+import UnivesidadMagdalena.Tienda.enumClass.Status;
 import UnivesidadMagdalena.Tienda.exception.PedidoNotFoundException;
 
 import java.time.LocalDateTime;
@@ -16,6 +18,6 @@ public interface PedidoService {
 
     // Métodos específicos
     List<PedidoDto> findByFechaPedidoBetween(LocalDateTime fechaInicio, LocalDateTime fechaFin) throws PedidoNotFoundException;
-    List<PedidoDto> findByClienteAndStatus(Long idCliente, String status) throws PedidoNotFoundException;
+    List<PedidoDto> findByClienteAndStatus(Cliente cliente, Status status) throws PedidoNotFoundException;
     List<PedidoDto> findPedidosConArticulosByCliente(Long idCliente) throws PedidoNotFoundException;
 }
