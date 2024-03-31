@@ -1,3 +1,5 @@
+package UnivesidadMagdalena.Tienda.api;
+
 import UnivesidadMagdalena.Tienda.dto.producto.ProductoDto;
 import UnivesidadMagdalena.Tienda.dto.producto.ProductoToSaveDto;
 import UnivesidadMagdalena.Tienda.exception.ProductoNotFoundException;
@@ -21,32 +23,32 @@ public class ProductoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> obtenerProductoPorId(@PathVariable Long id) {
+    public ResponseEntity<ProductoDto> obtenerProductoPorId(@PathVariable Long id) {
         try {
             ProductoDto producto = productoService.buscarProductoPorId(id);
-            return ResponseEntity.ok(producto);
+            return ResponseEntity.ok().body(producto);
         } catch (ProductoNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> buscarProductosPorTermino(@RequestParam String searchTerm) {
+    public ResponseEntity<List<ProductoDto>> buscarProductosPorTermino(@RequestParam String searchTerm) {
         try {
             List<ProductoDto> productos = productoService.buscarPorTerminoDeBusqueda(searchTerm);
-            return ResponseEntity.ok(productos);
+            return ResponseEntity.ok().body(productos);
         } catch (ProductoNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 
     @GetMapping("/instock")
-    public ResponseEntity<?> obtenerProductosEnStock() {
+    public ResponseEntity<List<ProductoDto>> obtenerProductosEnStock() {
         try {
-            List<ProductoDto> productos = productoService.buscarPorStock(1); // Se asume que 1 representa que están en stock
-            return ResponseEntity.ok(productos);
+            List<ProductoDto> productos = productoService.buscarEnStock();
+            return ResponseEntity.ok().body(productos);
         } catch (ProductoNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.notFound().build();
         }
     }
 

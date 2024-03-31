@@ -68,10 +68,10 @@ public class ProductoServiceImpl implements ProductoService{
     }
 
     @Override
-    public List<ProductoDto> buscarPorStock(Integer cantidad) throws ProductoNotFoundException {
+    public List<ProductoDto> buscarEnStock() throws ProductoNotFoundException {
 
-        List<Producto> productos = productoRepository.findByStock(cantidad);
-        if(productos.isEmpty()) throw new ProductoNotFoundException("No se encontró ningun producto un stock de " + cantidad);
+        List<Producto> productos = productoRepository.buscarEnStock();
+        if(productos.isEmpty()) throw new ProductoNotFoundException("No se encontró ningun producto en stock de la tienda ");
 
         return productoMapper.productosToProductosDto(productos);
     }

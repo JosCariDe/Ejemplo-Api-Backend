@@ -78,10 +78,8 @@ class ProductoRepositoryTest extends AbstractIntegrationDBTest{
     @Test
     void findByStockTest() {
 
-        List<Producto> productosSave = productoRepository.findByStock(64);
-        List<Producto> productosSave2 = productoRepository.findByStock(1);
+        List<Producto> productosSave = productoRepository.buscarEnStock();
         assertThat(productosSave.isEmpty()).isFalse();
-        assertThat(productosSave2.isEmpty()).isTrue();
 
     }
 

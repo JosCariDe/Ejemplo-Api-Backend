@@ -13,6 +13,6 @@ public interface ProductoService {
     void removerProducto(Long id);
     List<ProductoDto> getAllUsers();
     List<ProductoDto> buscarPorTerminoDeBusqueda(String termino) throws ProductoNotFoundException;
-    List<ProductoDto> buscarPorStock(Integer cantidad) throws ProductoNotFoundException;
+    List<ProductoDto> buscarEnStock() throws ProductoNotFoundException;
     List<ProductoDto> buscarPorPrecioMaximoYStockMaximo(Integer precioMaximo, Integer stockMaximo) throws ProductoNotFoundException;
 }
