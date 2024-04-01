@@ -2,20 +2,26 @@ package UnivesidadMagdalena.Tienda.service;
 
 import UnivesidadMagdalena.Tienda.dto.producto.ProductoDto;
 import UnivesidadMagdalena.Tienda.dto.producto.ProductoMapper;
+import UnivesidadMagdalena.Tienda.dto.producto.ProductoMapperImpl;
 import UnivesidadMagdalena.Tienda.dto.producto.ProductoToSaveDto;
 import UnivesidadMagdalena.Tienda.entities.Producto;
 import UnivesidadMagdalena.Tienda.exception.ProductoNotFoundException;
 import UnivesidadMagdalena.Tienda.repository.ProductoRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ProductoServiceImpl implements ProductoService{
-    private final ProductoMapper productoMapper;
+
+    private final ProductoMapperImpl productoMapper;
+
     private final ProductoRepository productoRepository;
 
-    public ProductoServiceImpl(ProductoMapper productoMapper, ProductoRepository productoRepository) {
+    @Autowired
+    public ProductoServiceImpl(ProductoMapperImpl productoMapper, ProductoRepository productoRepository) {
         this.productoMapper = productoMapper;
         this.productoRepository = productoRepository;
     }

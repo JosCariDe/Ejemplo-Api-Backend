@@ -6,6 +6,7 @@ import UnivesidadMagdalena.Tienda.entities.DetalleEnvio;
 import UnivesidadMagdalena.Tienda.enumClass.Status;
 import UnivesidadMagdalena.Tienda.exception.DetalleEnvioNotFoundException;
 import UnivesidadMagdalena.Tienda.repository.DetalleEnvioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class DetalleEnvioServiceImpl implements DetalleEnvioService {
     private final DetalleEnvioMapper detalleEnvioMapper;
     private final DetalleEnvioRepository detalleEnvioRepository;
 
+    @Autowired
     public DetalleEnvioServiceImpl(DetalleEnvioMapper detalleEnvioMapper, DetalleEnvioRepository detalleEnvioRepository) {
         this.detalleEnvioMapper = detalleEnvioMapper;
         this.detalleEnvioRepository = detalleEnvioRepository;

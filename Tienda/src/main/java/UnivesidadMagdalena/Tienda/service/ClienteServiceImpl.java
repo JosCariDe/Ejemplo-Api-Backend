@@ -6,6 +6,7 @@ import UnivesidadMagdalena.Tienda.dto.cliente.ClienteToSaveDto;
 import UnivesidadMagdalena.Tienda.entities.Cliente;
 import UnivesidadMagdalena.Tienda.exception.ClienteNotFoundException;
 import UnivesidadMagdalena.Tienda.repository.ClienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class ClienteServiceImpl implements ClienteService{
     private final ClienteMapper clienteMapper;
     private final ClienteRepository clienteRepository;
 
+    @Autowired
     public ClienteServiceImpl(ClienteMapper clienteMapper, ClienteRepository clienteRepository) {
         this.clienteMapper = clienteMapper;
         this.clienteRepository = clienteRepository;
