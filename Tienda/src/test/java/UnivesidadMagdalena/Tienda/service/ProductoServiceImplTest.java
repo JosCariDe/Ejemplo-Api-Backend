@@ -33,10 +33,12 @@ class ProductoServiceImplTest {
 
     @BeforeEach
     void setUp() {
+
         producto = Producto.builder()
-                .nombre("nombre")
-                .price(10)
-                .stock(100)
+                .id(1L)
+                .nombre("Panela")
+                .price(1500)
+                .stock(120)
                 .build();
     }
 
@@ -45,18 +47,18 @@ class ProductoServiceImplTest {
         given(productoRepository.save(any())).willReturn(producto);
 
         ProductoToSaveDto productoAGuardar = ProductoToSaveDto.builder()
-                .id(2L)
-                .nombre("Nombre")
-                .price(10)
-                .stock(100)
+                .nombre("panela")
+                .price(1500)
+                .stock(120)
                 .build();
 
         ProductoDto productoDto = productoService.guardarProducto(productoAGuardar);
 
         assertNotNull(productoDto);
-        assertEquals("Nombre", productoDto.nombre());
-        assertEquals(10, productoDto.stock());
-        assertEquals(100, productoDto.price());
+        assertEquals(1L, productoDto.id());
+        assertEquals("Panela", productoDto.nombre());
+        assertEquals(120, productoDto.stock());
+        assertEquals(1500, productoDto.price());
     }
 
     @Test
@@ -67,9 +69,9 @@ class ProductoServiceImplTest {
         ProductoDto productoDto = productoService.buscarProductoPorId(productoId);
 
         assertNotNull(productoDto);
-        assertEquals("Nombre", productoDto.nombre());
-        assertEquals(10, productoDto.stock());
-        assertEquals(100, productoDto.price());
+        assertEquals("Panela", productoDto.nombre());
+        assertEquals(120, productoDto.stock());
+        assertEquals(1500, productoDto.price());
     }
 
     @Test
@@ -84,6 +86,7 @@ class ProductoServiceImplTest {
     @Test
     void givenProductId_whenRemoverProducto_thenNothing() {
         Long productoId = 1L;
+        given(productoRepository.findById(productoId)).willReturn(Optional.of(producto));
         willDoNothing().given(productoRepository).delete(any());
 
         assertDoesNotThrow(() -> {
