@@ -1,15 +1,18 @@
 package UnivesidadMagdalena.Tienda.dto.pedido;
 
+import UnivesidadMagdalena.Tienda.dto.cliente.ClienteMapper;
 import UnivesidadMagdalena.Tienda.entities.Pedido;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper
 public interface PedidoMapper {
 
+    PedidoMapper INSTANCE = Mappers.getMapper(PedidoMapper.class);
     PedidoDto pedidoToPedidoDto(Pedido pedido);
     Pedido pedidoDtoToPedido(PedidoDto pedidoDto);
 

@@ -7,25 +7,23 @@ import UnivesidadMagdalena.Tienda.entities.ItemPedido;
 import UnivesidadMagdalena.Tienda.entities.Producto;
 import UnivesidadMagdalena.Tienda.exception.ItemPedidoNotFoundException;
 import UnivesidadMagdalena.Tienda.repository.ItemPedidoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ItemPedidoServiceImpl implements ItemPedidoService {
+
     private final ItemPedidoMapper itemPedidoMapper;
     private final ItemPedidoRepository itemPedidoRepository;
 
-    public ItemPedidoServiceImpl(ItemPedidoMapper itemPedidoMapper, ItemPedidoRepository itemPedidoRepository) {
-        this.itemPedidoMapper = itemPedidoMapper;
-        this.itemPedidoRepository = itemPedidoRepository;
-    }
-
     @Override
     public ItemPedidoDto guardarItemPedido(ItemPedidoToSaveDto itemPedidoDto) {
-        ItemPedido itemPedido = itemPedidoMapper.itemPedidoToSaveDtoToItemPedido(itemPedidoDto);
+        ItemPedido itemPedido = ItemPedidoMapper.INSTANCE.itemPedidoToSaveDtoToItemPedido(itemPedidoDto);
         ItemPedido itemPedidoGuardado = itemPedidoRepository.save(itemPedido);
-        return itemPedidoMapper.itemPedidoToItemPedidoDto(itemPedidoGuardado);
+        return ItemPedidoMapper.INSTANCE.itemPedidoToItemPedidoDto(itemPedidoGuardado);
     }
 
     @Override
@@ -37,7 +35,7 @@ public class ItemPedidoServiceImpl implements ItemPedidoService {
 
             ItemPedido itemPedidoGuardado = itemPedidoRepository.save(itemPedidoInDb);
 
-            return itemPedidoMapper.itemPedidoToItemPedidoDto(itemPedidoGuardado);
+            return ItemPedidoMapper.INSTANCE.itemPedidoToItemPedidoDto(itemPedidoGuardado);
         }).orElseThrow(() -> new ItemPedidoNotFoundException("ItemPedido no encontrado"));
     }
 
@@ -45,7 +43,7 @@ public class ItemPedidoServiceImpl implements ItemPedidoService {
     public ItemPedidoDto buscarItemPedidoPorId(Long id) throws ItemPedidoNotFoundException {
         ItemPedido itemPedido = itemPedidoRepository.findById(id)
                 .orElseThrow(() -> new ItemPedidoNotFoundException("ItemPedido no encontrado"));
-        return itemPedidoMapper.itemPedidoToItemPedidoDto(itemPedido);
+        return ItemPedidoMapper.INSTANCE.itemPedidoToItemPedidoDto(itemPedido);
     }
 
     @Override
@@ -58,15 +56,16 @@ public class ItemPedidoServiceImpl implements ItemPedidoService {
     @Override
     public List<ItemPedidoDto> getAllItemPedidos() {
         List<ItemPedido> itemPedidos = itemPedidoRepository.findAll();
-        return itemPedidoMapper.itemPedidosToItemPedidosDto(itemPedidos);
+        return ItemPedidoMapper.INSTANCE.itemPedidosToItemPedidosDto(itemPedidos);
     }
+
     @Override
     public List<ItemPedidoDto> buscarItemsPorIdPedido(Long idPedido) throws ItemPedidoNotFoundException {
         List<ItemPedido> itemPedidos = itemPedidoRepository.buscarItemsPorIdPedido(idPedido);
         if (itemPedidos.isEmpty()) {
             throw new ItemPedidoNotFoundException("No se encontraron ItemPedidos para el Pedido con ID: " + idPedido);
         }
-        return itemPedidoMapper.itemPedidosToItemPedidosDto(itemPedidos);
+        return ItemPedidoMapper.INSTANCE.itemPedidosToItemPedidosDto(itemPedidos);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class ItemPedidoServiceImpl implements ItemPedidoService {
         if (itemPedidos.isEmpty()) {
             throw new ItemPedidoNotFoundException("No se encontraron ItemPedidos para el Producto: " + producto.getNombre());
         }
-        return itemPedidoMapper.itemPedidosToItemPedidosDto(itemPedidos);
+        return ItemPedidoMapper.INSTANCE.itemPedidosToItemPedidosDto(itemPedidos);
     }
 
     @Override

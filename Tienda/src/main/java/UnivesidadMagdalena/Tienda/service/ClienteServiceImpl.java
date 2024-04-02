@@ -2,31 +2,28 @@ package UnivesidadMagdalena.Tienda.service;
 
 import UnivesidadMagdalena.Tienda.dto.cliente.ClienteDto;
 import UnivesidadMagdalena.Tienda.dto.cliente.ClienteMapper;
+import UnivesidadMagdalena.Tienda.dto.cliente.ClienteMapperImpl;
 import UnivesidadMagdalena.Tienda.dto.cliente.ClienteToSaveDto;
 import UnivesidadMagdalena.Tienda.entities.Cliente;
 import UnivesidadMagdalena.Tienda.exception.ClienteNotFoundException;
 import UnivesidadMagdalena.Tienda.repository.ClienteRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ClienteServiceImpl implements ClienteService{
-    private final ClienteMapper clienteMapper;
-    private final ClienteRepository clienteRepository;
 
-    @Autowired
-    public ClienteServiceImpl(ClienteMapper clienteMapper, ClienteRepository clienteRepository) {
-        this.clienteMapper = clienteMapper;
-        this.clienteRepository = clienteRepository;
-    }
+    private final ClienteRepository clienteRepository;
 
     @Override
     public ClienteDto guardarCliente(ClienteToSaveDto clienteDto) {
-        Cliente cliente = clienteMapper.clienteToSaveDtoToCliente(clienteDto);
+        Cliente cliente = ClienteMapper.INSTANCE.clienteToSaveDtoToCliente(clienteDto);
         Cliente clienteGuardado = clienteRepository.save(cliente);
-        return clienteMapper.clienteToClienteDto(clienteGuardado);
+        return ClienteMapper.INSTANCE.clienteToClienteDto(clienteGuardado);
     }
 
     @Override
@@ -38,7 +35,7 @@ public class ClienteServiceImpl implements ClienteService{
 
             Cliente clienteGuardado = clienteRepository.save(clienteInDb);
 
-            return clienteMapper.clienteToClienteDto(clienteGuardado);
+            return ClienteMapper.INSTANCE.clienteToClienteDto(clienteGuardado);
         }).orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado"));
     }
 
@@ -46,7 +43,7 @@ public class ClienteServiceImpl implements ClienteService{
     public ClienteDto buscarClientePorId(Long id) throws ClienteNotFoundException {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new ClienteNotFoundException("Cliente no encontrado"));
-        return clienteMapper.clienteToClienteDto(cliente);
+        return ClienteMapper.INSTANCE.clienteToClienteDto(cliente);
     }
 
     @Override
@@ -59,7 +56,7 @@ public class ClienteServiceImpl implements ClienteService{
     @Override
     public List<ClienteDto> getAllClientes() {
         List<Cliente> clientes = clienteRepository.findAll();
-        return clienteMapper.clientesToClientesDto(clientes);
+        return ClienteMapper.INSTANCE.clientesToClientesDto(clientes);
     }
 
     @Override
@@ -68,7 +65,7 @@ public class ClienteServiceImpl implements ClienteService{
         if (clientes.isEmpty()) {
             throw new ClienteNotFoundException("No se encontraron clientes con el email: " + email);
         }
-        return clienteMapper.clientesToClientesDto(clientes);
+        return ClienteMapper.INSTANCE.clientesToClientesDto(clientes);
     }
 
     @Override
@@ -77,7 +74,7 @@ public class ClienteServiceImpl implements ClienteService{
         if (clientes.isEmpty()) {
             throw new ClienteNotFoundException("No se encontraron clientes con la dirección: " + direccion);
         }
-        return clienteMapper.clientesToClientesDto(clientes);
+        return ClienteMapper.INSTANCE.clientesToClientesDto(clientes);
     }
 
     @Override
@@ -86,6 +83,6 @@ public class ClienteServiceImpl implements ClienteService{
         if (clientes.isEmpty()) {
             throw new ClienteNotFoundException("No se encontraron clientes cuyos nombres comiencen con: " + nombre);
         }
-        return clienteMapper.clientesToClientesDto(clientes);
+        return ClienteMapper.INSTANCE.clientesToClientesDto(clientes);
     }
 }

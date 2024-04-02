@@ -29,17 +29,19 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public PedidoDto guardarPedido(PedidoDto pedidoDto) {
-        Pedido pedido = pedidoMapper.pedidoDtoToPedido(pedidoDto);
+        Pedido pedido = PedidoMapper.INSTANCE.pedidoDtoToPedido(pedidoDto);
         Pedido pedidoGuardado = pedidoRepository.save(pedido);
-        return pedidoMapper.pedidoToPedidoDto(pedidoGuardado);
+        return PedidoMapper.INSTANCE.pedidoToPedidoDto(pedidoGuardado);
     }
 
     @Override
     public PedidoDto actualizarPedido(Long id, PedidoDto pedidoDto) {
         return pedidoRepository.findById(id).map(pedidoInDb -> {
             // Actualizar los campos necesarios
+            pedidoInDb.setFechaPedido(pedidoDto.fechaPedido());
+            pedidoInDb.setStatus(pedidoDto.status());
             Pedido pedidoActualizado = pedidoRepository.save(pedidoInDb);
-            return pedidoMapper.pedidoToPedidoDto(pedidoActualizado);
+            return PedidoMapper.INSTANCE.pedidoToPedidoDto(pedidoActualizado);
         }).orElseThrow(() -> new PedidoNotFoundException("Pedido no encontrado"));
     }
 
@@ -47,7 +49,7 @@ public class PedidoServiceImpl implements PedidoService {
     public PedidoDto buscarPedidoPorId(Long id) throws PedidoNotFoundException {
         Pedido pedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new PedidoNotFoundException("Pedido no encontrado"));
-        return pedidoMapper.pedidoToPedidoDto(pedido);
+        return PedidoMapper.INSTANCE.pedidoToPedidoDto(pedido);
     }
 
     @Override
@@ -60,7 +62,7 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public List<PedidoDto> getAllPedidos() {
         List<Pedido> pedidos = pedidoRepository.findAll();
-        return pedidoMapper.pedidosToPedidosDto(pedidos);
+        return PedidoMapper.INSTANCE.pedidosToPedidosDto(pedidos);
     }
 
     // Métodos específicos
@@ -69,7 +71,7 @@ public class PedidoServiceImpl implements PedidoService {
     public List<PedidoDto> findByFechaPedidoBetween(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
         List<Pedido> pedidos = pedidoRepository.findByFechaPedidoBetween(fechaInicio,fechaFin);
         if(pedidos.isEmpty()) throw new PedidoNotFoundException("No se encontró un Pedido entre las fechas digitadas");
-        return pedidoMapper.pedidosToPedidosDto(pedidos);
+        return PedidoMapper.INSTANCE.pedidosToPedidosDto(pedidos);
     }
 
     @Override
@@ -79,7 +81,7 @@ public class PedidoServiceImpl implements PedidoService {
             throw new PedidoNotFoundException("No se encontraron pedidos para el cliente con ID: " + cliente.getId() +
                     " y estado: " + status.toString());
         }
-        return pedidoMapper.pedidosToPedidosDto(pedidos);
+        return PedidoMapper.INSTANCE.pedidosToPedidosDto(pedidos);
 
     }
 
@@ -89,6 +91,6 @@ public class PedidoServiceImpl implements PedidoService {
         if (pedidos.isEmpty()) {
             throw new PedidoNotFoundException("No se encontraron pedidos con artículos para el cliente con ID: " + idCliente);
         }
-        return pedidoMapper.pedidosToPedidosDto(pedidos);
+        return PedidoMapper.INSTANCE.pedidosToPedidosDto(pedidos);
     }
 }

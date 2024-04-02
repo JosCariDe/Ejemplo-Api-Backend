@@ -6,27 +6,23 @@ import UnivesidadMagdalena.Tienda.entities.DetalleEnvio;
 import UnivesidadMagdalena.Tienda.enumClass.Status;
 import UnivesidadMagdalena.Tienda.exception.DetalleEnvioNotFoundException;
 import UnivesidadMagdalena.Tienda.repository.DetalleEnvioRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DetalleEnvioServiceImpl implements DetalleEnvioService {
-    private final DetalleEnvioMapper detalleEnvioMapper;
-    private final DetalleEnvioRepository detalleEnvioRepository;
 
-    @Autowired
-    public DetalleEnvioServiceImpl(DetalleEnvioMapper detalleEnvioMapper, DetalleEnvioRepository detalleEnvioRepository) {
-        this.detalleEnvioMapper = detalleEnvioMapper;
-        this.detalleEnvioRepository = detalleEnvioRepository;
-    }
+    private final DetalleEnvioRepository detalleEnvioRepository;
 
     @Override
     public DetalleEnvioDto guardarDetalleEnvio(DetalleEnvioDto detalleEnvioDto) {
-        DetalleEnvio detalleEnvio = detalleEnvioMapper.detalleEnvioDtoToDetalleEnvio(detalleEnvioDto);
+        DetalleEnvio detalleEnvio = DetalleEnvioMapper.INSTANCE.detalleEnvioDtoToDetalleEnvio(detalleEnvioDto);
         DetalleEnvio detalleEnvioGuardado = detalleEnvioRepository.save(detalleEnvio);
-        return detalleEnvioMapper.detalleEnvioToDetalleEnvioDto(detalleEnvioGuardado);
+        return DetalleEnvioMapper.INSTANCE.detalleEnvioToDetalleEnvioDto(detalleEnvioGuardado);
     }
 
     @Override
@@ -38,7 +34,7 @@ public class DetalleEnvioServiceImpl implements DetalleEnvioService {
         detalleEnvio.setDireccion(detalleEnvioDto.direccion());
 
         DetalleEnvio detalleEnvioGuardado = detalleEnvioRepository.save(detalleEnvio);
-        return detalleEnvioMapper.detalleEnvioToDetalleEnvioDto(detalleEnvioGuardado);
+        return DetalleEnvioMapper.INSTANCE.detalleEnvioToDetalleEnvioDto(detalleEnvioGuardado);
     }
 
     @Override
@@ -46,14 +42,14 @@ public class DetalleEnvioServiceImpl implements DetalleEnvioService {
         DetalleEnvio detalleEnvio =detalleEnvioRepository.findById(id)
                 .orElseThrow(() -> new DetalleEnvioNotFoundException("Detalle de envio no encontrado con id: " + id));
 
-        return detalleEnvioMapper.detalleEnvioToDetalleEnvioDto(detalleEnvio);
+        return DetalleEnvioMapper.INSTANCE.detalleEnvioToDetalleEnvioDto(detalleEnvio);
     }
 
     @Override
     public List<DetalleEnvioDto> getAllDetalleEnvio() {
         List<DetalleEnvio> detalleEnvios = detalleEnvioRepository.findAll();
         if(detalleEnvios.isEmpty()) throw new DetalleEnvioNotFoundException("No hay ningun Detalle de envio en BD");
-        return detalleEnvioMapper.detalleEnviosToDetalleEnviosDto(detalleEnvios);
+        return DetalleEnvioMapper.INSTANCE.detalleEnviosToDetalleEnviosDto(detalleEnvios);
     }
 
     @Override
@@ -62,7 +58,7 @@ public class DetalleEnvioServiceImpl implements DetalleEnvioService {
         if (detalleEnvio == null) {
             throw new DetalleEnvioNotFoundException("Detalle de envío no encontrado para el pedido con ID: " + idPedido);
         }
-        return detalleEnvioMapper.detalleEnvioToDetalleEnvioDto(detalleEnvio);
+        return DetalleEnvioMapper.INSTANCE.detalleEnvioToDetalleEnvioDto(detalleEnvio);
     }
 
 
@@ -72,7 +68,7 @@ public class DetalleEnvioServiceImpl implements DetalleEnvioService {
         if (detalleEnvio == null) {
             throw new DetalleEnvioNotFoundException("Detalle de envío no encontrado para la transportadora: " + transportadora);
         }
-        return detalleEnvioMapper.detalleEnvioToDetalleEnvioDto(detalleEnvio);
+        return DetalleEnvioMapper.INSTANCE.detalleEnvioToDetalleEnvioDto(detalleEnvio);
     }
 
     @Override
@@ -81,7 +77,7 @@ public class DetalleEnvioServiceImpl implements DetalleEnvioService {
         if (detalleEnvio == null) {
             throw new DetalleEnvioNotFoundException("Detalle de envío no encontrado para el estado de pedido: " + estadoPedido);
         }
-        return detalleEnvioMapper.detalleEnvioToDetalleEnvioDto(detalleEnvio);
+        return DetalleEnvioMapper.INSTANCE.detalleEnvioToDetalleEnvioDto(detalleEnvio);
     }
 
     @Override

@@ -7,34 +7,34 @@ import UnivesidadMagdalena.Tienda.entities.Pago;
 import UnivesidadMagdalena.Tienda.enumClass.MetodoPago;
 import UnivesidadMagdalena.Tienda.exception.PagoNotFoundException;
 import UnivesidadMagdalena.Tienda.repository.PagoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PagoServiceImpl implements PagoService {
-    private final PagoMapper pagoMapper;
-    private final PagoRepository pagoRepository;
 
-    public PagoServiceImpl(PagoMapper pagoMapper, PagoRepository pagoRepository) {
-        this.pagoMapper = pagoMapper;
-        this.pagoRepository = pagoRepository;
-    }
+    private final PagoRepository pagoRepository;
 
     @Override
     public PagoDto guardarPago(PagoToSaveDto pagoDto) {
-        Pago pago = pagoMapper.pagoToSaveDtoToPago(pagoDto);
+        Pago pago = PagoMapper.INSTANCE.pagoToSaveDtoToPago(pagoDto);
         Pago pagoGuardado = pagoRepository.save(pago);
-        return pagoMapper.pagoToPagoDto(pagoGuardado);
+        return PagoMapper.INSTANCE.pagoToPagoDto(pagoGuardado);
     }
 
     @Override
     public PagoDto actualizarPago(Long id, PagoToSaveDto pagoDto) throws PagoNotFoundException {
         return pagoRepository.findById(id).map(pagoInDb -> {
             // Actualizar los campos del pago con los valores del DTO
+            pagoInDb.setMetodoPago(pagoDto.metodoPago());
+            pagoInDb.setFechaPago(pagoDto.fechaPago());
+            pagoInDb.setTotalPago(pagoDto.totalPago());
             Pago pagoActualizado = pagoRepository.save(pagoInDb);
-            return pagoMapper.pagoToPagoDto(pagoActualizado);
+            return PagoMapper.INSTANCE.pagoToPagoDto(pagoActualizado);
         }).orElseThrow(() -> new PagoNotFoundException("Pago no encontrado"));
     }
 
@@ -42,7 +42,7 @@ public class PagoServiceImpl implements PagoService {
     public PagoDto buscarPagoPorId(Long id) throws PagoNotFoundException {
         Pago pago = pagoRepository.findById(id)
                 .orElseThrow(() -> new PagoNotFoundException("Pago no encontrado"));
-        return pagoMapper.pagoToPagoDto(pago);
+        return PagoMapper.INSTANCE.pagoToPagoDto(pago);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class PagoServiceImpl implements PagoService {
     @Override
     public List<PagoDto> getAllPagos() {
         List<Pago> pagos = pagoRepository.findAll();
-        return pagoMapper.pagosToPagosDto(pagos);
+        return PagoMapper.INSTANCE.pagosToPagosDto(pagos);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class PagoServiceImpl implements PagoService {
         if (pagos.isEmpty()) {
             throw new PagoNotFoundException("No se encontraron pagos en el rango de fechas proporcionado");
         }
-        return pagoMapper.pagosToPagosDto(pagos);
+        return PagoMapper.INSTANCE.pagosToPagosDto(pagos);
     }
 
     @Override
@@ -73,6 +73,6 @@ public class PagoServiceImpl implements PagoService {
         if (pagos.isEmpty()) {
             throw new PagoNotFoundException("No se encontraron pagos con el ID " + id + " y el método de pago " + metodoPago);
         }
-        return pagoMapper.pagosToPagosDto(pagos);
+        return PagoMapper.INSTANCE.pagosToPagosDto(pagos);
     }
 }
