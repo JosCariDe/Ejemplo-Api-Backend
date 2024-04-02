@@ -2,6 +2,7 @@ package UnivesidadMagdalena.Tienda.service;
 
 import UnivesidadMagdalena.Tienda.dto.producto.ProductoDto;
 import UnivesidadMagdalena.Tienda.dto.producto.ProductoToSaveDto;
+import UnivesidadMagdalena.Tienda.entities.Cliente;
 import UnivesidadMagdalena.Tienda.entities.Producto;
 import UnivesidadMagdalena.Tienda.exception.ProductoNotFoundException;
 import UnivesidadMagdalena.Tienda.repository.ProductoRepository;
@@ -12,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,7 +35,6 @@ class ProductoServiceImplTest {
 
     @BeforeEach
     void setUp() {
-
         producto = Producto.builder()
                 .id(1L)
                 .nombre("Panela")
@@ -96,6 +97,57 @@ class ProductoServiceImplTest {
         verify(productoRepository, times(1)).delete(any());
     }
 
-    // Aquí puedes agregar más pruebas para otros métodos del servicio de Producto
+    @Test
+    void givenNothing_whenGetAllProducto_thenReturnListOfProductos() {
+        List<Producto> productos = List.of(producto);
+        given(productoRepository.findAll()).willReturn(productos);
+
+        List<ProductoDto> productoDtos = productoService.getAllProducto();
+
+        assertNotNull(productoDtos);
+        assertEquals(1,productoDtos.size());
+
+    }
+
+    @Test
+    void givenTermino_whenPorTerminoDeBusqueda_thenReturnListOfProductos() {
+        String termino = "Panela";
+        List<Producto> productos = List.of(producto);
+        given(productoRepository.buscarPorTerminoDeBusqueda(any())).willReturn(productos);
+
+        List<ProductoDto> productoDtos = productoService.buscarPorTerminoDeBusqueda(termino);
+
+        assertNotNull(productoDtos);
+        assertEquals(1, productoDtos.size());
+        assertEquals("Panela" , productoDtos.get(0).nombre());
+    }
+
+    @Test
+    void givenNothing_whenBuscarEnStock_thenReturnListOfProductos() {
+        List<Producto> productos = List.of(producto);
+        given(productoRepository.buscarEnStock()).willReturn(productos);
+
+        List<ProductoDto> productoDtos = productoService.buscarEnStock();
+
+        assertNotNull(productoDtos);
+        assertFalse(productoDtos.isEmpty());
+        assertEquals(1, productoDtos.size());
+        assertEquals("Panela", productoDtos.get(0).nombre());
+    }
+
+    @Test
+    void givenPrecioMaximoAndStockMaximo_whenBuscarPorPrecioMaximoYStockMaximo_thenReturnListOfProductos() {
+        Integer precioMaximo = 2000;
+        Integer stockMaximo = 200;
+        List<Producto> productos = List.of(producto);
+        given(productoRepository.buscarPorPrecioMaximoYStockMaximo(precioMaximo, stockMaximo)).willReturn(productos);
+
+        List<ProductoDto> productoDtos = productoService.buscarPorPrecioMaximoYStockMaximo(precioMaximo, stockMaximo);
+
+        assertNotNull(productoDtos);
+        assertFalse(productoDtos.isEmpty());
+        assertEquals(1, productoDtos.size());
+        assertEquals("Panela", productoDtos.get(0).nombre());
+    }
 
 }

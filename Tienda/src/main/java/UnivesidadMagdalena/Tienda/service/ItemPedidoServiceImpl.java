@@ -16,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemPedidoServiceImpl implements ItemPedidoService {
 
-    private final ItemPedidoMapper itemPedidoMapper;
     private final ItemPedidoRepository itemPedidoRepository;
 
     @Override

@@ -5,11 +5,13 @@ import UnivesidadMagdalena.Tienda.dto.detalleEnvio.DetalleEnvioDto;
 import UnivesidadMagdalena.Tienda.dto.itemPedido.ItemPedidoDto;
 import UnivesidadMagdalena.Tienda.dto.pago.PagoDto;
 import UnivesidadMagdalena.Tienda.enumClass.Status;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 
+@Builder
 public record PedidoDto(Long id,
                         ClienteDto cliente,
                         LocalDateTime fechaPedido,
