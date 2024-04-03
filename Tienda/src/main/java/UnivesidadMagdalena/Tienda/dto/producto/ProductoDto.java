@@ -19,7 +19,7 @@ public record ProductoDto(Long id,
         return Collections.unmodifiableList(pedidos);
     } */
 
-    public List<ItemPedidoDto> itemPedidos() {
+    /*public List<ItemPedidoDto> itemPedidos() {
         return Collections.unmodifiableList(itemPedidos);
-    }
+    } */
 }

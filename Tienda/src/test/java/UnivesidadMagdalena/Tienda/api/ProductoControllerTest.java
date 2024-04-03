@@ -25,6 +25,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 import java.util.ArrayList;
@@ -133,8 +135,8 @@ public class ProductoControllerTest {
 
     @Test
     public void givenProducto_whenBuscarProductoPorId_thenReturnProducto() throws Exception {
-        //given - precondition or setup
-        long idProducto = 1L;
+        //given
+        Long idProducto = 1L;
         ProductoDto productoDto = ProductoDto.builder()
                 .id(1L)
                 .nombre("Panela Dulce")
@@ -143,15 +145,55 @@ public class ProductoControllerTest {
                 .itemPedidos(Collections.emptyList()).build();
         when(productoService.buscarProductoPorId(idProducto)).thenReturn(productoDto);
 
-        // when - action or the behavior we are going to test
+        // when
         ResultActions response = mockMvc.perform(get(API_PATH + "/{id}", idProducto));
 
-        // then - verify the output
+        // then
         response.andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$.id", is(1)))
                 .andExpect(jsonPath("$.nombre", is(productoDto.nombre())))
                 .andExpect(jsonPath("$.stock", is(productoDto.stock())));
+    }
+
+    @Test
+    public void givenProductoActualizado_whenActualizarProducto_thenReturnProducto() throws Exception {
+        // given
+        Long idProducto = 1L;
+        ProductoDto productoDto = ProductoDto.builder()
+                .id(1L)
+                .nombre("Panela Dulce")
+                .price(1500)
+                .stock(120).build();
+
+        ProductoToSaveDto productoActualizar = ProductoToSaveDto.builder()
+                .id(1L)
+                .nombre("Panela Salada")
+                .price(2000)
+                .stock(120).build();
+
+        ProductoDto productoActualizado = ProductoDto.builder()
+                .id(1L)
+                .nombre("Panela Salada")
+                .price(2000)
+                .stock(120).build();
+
+        when(productoService.buscarProductoPorId(idProducto)).thenReturn( productoDto);
+        when(productoService.actualizarProducto(idProducto,productoActualizar)).thenReturn(productoActualizado);
+
+        //when
+
+        ResultActions response = mockMvc.perform(put(API_PATH + "/{id}", idProducto)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(productoActualizado)));
+
+        //then
+
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.nombre", is(productoActualizado.nombre())))
+                .andExpect(jsonPath("$.price", is(productoActualizado.price())))
+                .andExpect(jsonPath("$.stock", is(productoActualizado.stock())));
     }
 
 }

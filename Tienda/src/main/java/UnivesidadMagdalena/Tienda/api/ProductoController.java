@@ -77,8 +77,13 @@ public class ProductoController {
     @PutMapping("/{id}")
     public ResponseEntity<ProductoDto> actualizarProducto(@PathVariable Long id, @RequestBody ProductoToSaveDto productoDto) {
         try {
-            ProductoDto productoActualizado = productoService.actualizarProducto(id, productoDto);
-            return ResponseEntity.ok().body(productoActualizado);
+            ProductoDto productoDtoObtenido = productoService.buscarProductoPorId(id);
+            if (productoDtoObtenido.id() != null){
+                ProductoDto productoActualizado = productoService.actualizarProducto(id, productoDto);
+                return ResponseEntity.ok().body(productoActualizado);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
         } catch (ProductoNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
