@@ -33,7 +33,7 @@ public class ClienteController {
         }
     }
 
-    @GetMapping("/email")
+    @GetMapping("/email/{email}")
     public ResponseEntity<List<ClienteDto>> obtenerClientesPorEmail(@PathVariable String email) {
         try {
             List<ClienteDto> clientes = clienteService.findByEmail(email);
