@@ -30,6 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
@@ -118,6 +119,7 @@ public class ProductoControllerTest {
         // Act & Assert
         mockMvc.perform(get(API_PATH)
                         .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].nombre").value("Cereal"))
@@ -125,6 +127,31 @@ public class ProductoControllerTest {
                 .andExpect(jsonPath("$[1].id").value(2))
                 .andExpect(jsonPath("$[1].nombre").value("Panela"))
                 .andExpect(jsonPath("$[1].price").value(5000));
+
+
+    }
+
+    @Test
+    public void givenProducto_whenBuscarProductoPorId_thenReturnProducto() throws Exception {
+        //given - precondition or setup
+        long idProducto = 1L;
+        ProductoDto productoDto = ProductoDto.builder()
+                .id(1L)
+                .nombre("Panela Dulce")
+                .price(1500)
+                .stock(120)
+                .itemPedidos(Collections.emptyList()).build();
+        when(productoService.buscarProductoPorId(idProducto)).thenReturn(productoDto);
+
+        // when - action or the behavior we are going to test
+        ResultActions response = mockMvc.perform(get(API_PATH + "/{id}", idProducto));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.nombre", is(productoDto.nombre())))
+                .andExpect(jsonPath("$.stock", is(productoDto.stock())));
     }
 
 }
