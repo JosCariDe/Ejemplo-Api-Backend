@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ProductoMapper {
 
     ProductoMapper INSTANCE = Mappers.getMapper(ProductoMapper.class);

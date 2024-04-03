@@ -6,10 +6,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface PedidoMapper {
 
     PedidoMapper INSTANCE = Mappers.getMapper(PedidoMapper.class);

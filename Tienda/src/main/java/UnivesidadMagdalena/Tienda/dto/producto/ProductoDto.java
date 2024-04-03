@@ -15,9 +15,9 @@ public record ProductoDto(Long id,
                           List<PedidoDto> pedidos,
                           List<ItemPedidoDto> itemPedidos)
 {
-    public List<PedidoDto> pedidos() {
+    /*public List<PedidoDto> pedidos() {
         return Collections.unmodifiableList(pedidos);
-    }
+    } */
 
     public List<ItemPedidoDto> itemPedidos() {
         return Collections.unmodifiableList(itemPedidos);
