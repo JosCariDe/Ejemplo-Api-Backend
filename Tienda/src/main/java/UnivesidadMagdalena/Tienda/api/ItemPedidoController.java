@@ -8,7 +8,9 @@ import UnivesidadMagdalena.Tienda.service.ItemPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -62,7 +64,11 @@ public class ItemPedidoController {
     public ResponseEntity<ItemPedidoDto> guardarItemPedido(@RequestBody ItemPedidoToSaveDto itemPedidoDto) {
         try {
             ItemPedidoDto itemPedidoCreado = itemPedidoService.guardarItemPedido(itemPedidoDto);
-            return ResponseEntity.ok().body(itemPedidoCreado);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(itemPedidoCreado.id())
+                    .toUri();
+            return ResponseEntity.created(location).body(itemPedidoCreado);
         } catch (ItemPedidoNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

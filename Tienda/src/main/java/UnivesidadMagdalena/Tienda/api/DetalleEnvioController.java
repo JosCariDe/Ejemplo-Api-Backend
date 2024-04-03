@@ -7,7 +7,9 @@ import UnivesidadMagdalena.Tienda.service.DetalleEnvioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -61,7 +63,11 @@ public class DetalleEnvioController {
     public ResponseEntity<DetalleEnvioDto> guardarDetalleEnvio(@RequestBody DetalleEnvioDto detalleEnvioDto) {
         try {
             DetalleEnvioDto detalleEnvioCreado = detalleEnvioService.guardarDetalleEnvio(detalleEnvioDto);
-            return ResponseEntity.ok().body(detalleEnvioCreado);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(detalleEnvioCreado.id())
+                    .toUri();
+            return ResponseEntity.created(location).body(detalleEnvioCreado);
         } catch (DetalleEnvioNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

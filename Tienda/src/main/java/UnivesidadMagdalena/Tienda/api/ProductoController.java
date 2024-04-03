@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -61,8 +63,12 @@ public class ProductoController {
     @PostMapping
     public ResponseEntity<ProductoDto> guardarProducto(@RequestBody ProductoToSaveDto productoDto) {
         try {
-            ProductoDto productoGuardado = productoService.guardarProducto(productoDto);
-            return ResponseEntity.ok().body(productoGuardado);
+            ProductoDto productoCreado = productoService.guardarProducto(productoDto);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(productoCreado.id())
+                    .toUri();
+            return ResponseEntity.created(location).body(productoCreado);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }

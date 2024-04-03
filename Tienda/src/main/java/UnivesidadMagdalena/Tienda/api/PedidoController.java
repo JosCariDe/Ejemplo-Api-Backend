@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -66,7 +68,11 @@ public class PedidoController {
     public ResponseEntity<PedidoDto> guardarPedido(@RequestBody PedidoDto pedidoDto) {
         try {
             PedidoDto pedidoCreado = pedidoService.guardarPedido(pedidoDto);
-            return ResponseEntity.ok().body(pedidoCreado);
+            URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                    .path("/{id}")
+                    .buildAndExpand(pedidoCreado.id())
+                    .toUri();
+            return ResponseEntity.created(location).body(pedidoCreado);
         } catch (PedidoNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

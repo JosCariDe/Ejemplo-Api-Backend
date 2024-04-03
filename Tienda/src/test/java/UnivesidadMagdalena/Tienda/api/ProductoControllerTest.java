@@ -34,7 +34,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 
-import static org.awaitility.Awaitility.given;
+import static org.mockito.Mockito.when;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -45,9 +45,14 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.mockito.ArgumentMatchers;
+import static org.mockito.BDDMockito.given;
+
+
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+//@WebMvcTest No escanea todos los componentes necesarios
 public class ProductoControllerTest {
     private static final String API_PATH = "/api/v1/productos";
     @Autowired
@@ -71,7 +76,9 @@ public class ProductoControllerTest {
                 .itemPedidos(Collections.emptyList())
                 .itemPedidos(Collections.emptyList()).build();
         //Mocking
-        when(productoService.guardarProducto(productoToSaveDto)).thenReturn(productoDto);
+        when(productoService.guardarProducto(any())).thenReturn(productoDto);
+        //when(productoService.guardarProducto(ArgumentMatchers.any(ProductoToSaveDto.class)))
+          //      .thenReturn(productoDto);
         //WHEN
         ResultActions response  = mockMvc.perform(post(API_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -94,17 +101,30 @@ public class ProductoControllerTest {
                 .nombre("Cereal")
                 .stock(25)
                 .price(8500)
+                .itemPedidos(Collections.emptyList())
+                .itemPedidos(Collections.emptyList())
                 .build()));
+
+        productos.add(ProductoDto.builder()
+                .id(2L)
+                .nombre("Panela")
+                .price(5000)
+                .itemPedidos(Collections.emptyList())
+                .itemPedidos(Collections.emptyList())
+                .stock(50).build());
 
         when(productoService.getAllProducto()).thenReturn(productos);
 
         // Act & Assert
-        mockMvc.perform(get("/api/v1/productos")
+        mockMvc.perform(get(API_PATH)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].nombre").value("Cereal"))
-                .andExpect(jsonPath("$[0].precio").value(8500));
+                .andExpect(jsonPath("$[0].price").value(8500))
+                .andExpect(jsonPath("$[1].id").value(2))
+                .andExpect(jsonPath("$[1].nombre").value("Panela"))
+                .andExpect(jsonPath("$[1].price").value(5000));
     }
 
 }
