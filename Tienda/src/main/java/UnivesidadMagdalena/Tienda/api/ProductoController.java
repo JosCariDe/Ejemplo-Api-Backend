@@ -93,7 +93,7 @@ public class ProductoController {
     public ResponseEntity<Void> eliminarProducto(@PathVariable Long id) {
         try {
             productoService.removerProducto(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
         } catch (ProductoNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

@@ -3,6 +3,7 @@ package UnivesidadMagdalena.Tienda.api;
 import UnivesidadMagdalena.Tienda.dto.producto.ProductoDto;
 import UnivesidadMagdalena.Tienda.dto.producto.ProductoToSaveDto;
 import UnivesidadMagdalena.Tienda.entities.Producto;
+import UnivesidadMagdalena.Tienda.exception.ProductoNotFoundException;
 import UnivesidadMagdalena.Tienda.service.ProductoService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -194,6 +196,97 @@ public class ProductoControllerTest {
                 .andExpect(jsonPath("$.nombre", is(productoActualizado.nombre())))
                 .andExpect(jsonPath("$.price", is(productoActualizado.price())))
                 .andExpect(jsonPath("$.stock", is(productoActualizado.stock())));
+    }
+
+    @Test
+    public void givenIdProducto_whenEliminarProducto_thenReturn200() throws Exception {
+        //given - precondition or setup
+        long idProducto = 1L;
+        willDoNothing().given(productoService).removerProducto(idProducto);
+
+        // when - action or the behavior we are going to test
+        ResultActions response = mockMvc.perform(delete(API_PATH + "/{id}", idProducto));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void buscarProductosPorTermino_ReturnsListOfProducts() throws Exception {
+
+        String searchTerm = "anel"; //Panela
+        List<ProductoDto> productos = new ArrayList<>();
+        productos.add((ProductoDto.builder()
+                .id(1L)
+                .nombre("Panela")
+                .stock(120)
+                .price(1500)
+                .itemPedidos(Collections.emptyList())
+                .build()));
+
+        when(productoService.buscarPorTerminoDeBusqueda(any(String.class))).thenReturn(productos);
+
+
+        mockMvc.perform(get(API_PATH + "/search")
+                        .param("searchTerm", searchTerm)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].nombre").value("Panela"))
+                .andExpect(jsonPath("$[0].stock").value(120))
+                .andExpect(jsonPath("$[0].price").value(1500));
+    }
+
+    @Test
+    void buscarProductosPorTermino_WithNoResults_ReturnsNotFound() throws Exception {
+
+        String searchTerm = "panel";
+        when(productoService.buscarPorTerminoDeBusqueda(any(String.class))).thenThrow(new ProductoNotFoundException("No se encontraron productos"));
+
+
+        mockMvc.perform(get(API_PATH + "/search")
+                        .param("searchTerm", searchTerm)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andDo(print());;
+    }
+
+    @Test
+    void obtenerProductosEnStock_ReturnsListOfProducts() throws Exception {
+
+        List<ProductoDto> productos = new ArrayList<>();
+        productos.add((ProductoDto.builder()
+                .id(1L)
+                .nombre("Panel")
+                .stock(120)
+                .price(1500)
+                .itemPedidos(Collections.emptyList())
+                .build()));
+
+        when(productoService.buscarEnStock()).thenReturn(productos);
+
+        mockMvc.perform(get(API_PATH + "/instock")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].nombre").value("Panel"))
+                .andExpect(jsonPath("$[0].stock").value(120))
+                .andExpect(jsonPath("$[0].price").value(1500));
+    }
+
+    @Test
+    void obtenerProductosEnStock_WithNoResults_ReturnsNotFound() throws Exception {
+
+        when(productoService.buscarEnStock()).thenThrow(new ProductoNotFoundException("No hay productos en stock"));
+
+
+        mockMvc.perform(get(API_PATH + "/instock")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andDo(print());
     }
 
 }
