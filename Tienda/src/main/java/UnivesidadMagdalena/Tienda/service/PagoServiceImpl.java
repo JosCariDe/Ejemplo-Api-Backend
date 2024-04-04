@@ -46,6 +46,14 @@ public class PagoServiceImpl implements PagoService {
     }
 
     @Override
+    public PagoDto buscarPagoPorIdPedido(Long idPedido) throws PagoNotFoundException {
+        Pago pago = pagoRepository.buscarPagoPorIdPedido(idPedido);
+        if(pago.getId() == null)
+            throw new PagoNotFoundException("Pago no encontrado con el id del Pedido: " + idPedido);
+        return PagoMapper.INSTANCE.pagoToPagoDto(pago);
+    }
+
+    @Override
     public void removerPago(Long id) {
         Pago pago = pagoRepository.findById(id)
                 .orElseThrow(() -> new PagoNotFoundException("Pago no encontrado"));

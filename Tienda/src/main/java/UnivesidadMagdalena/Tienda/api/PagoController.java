@@ -41,10 +41,10 @@ public class PagoController {
         return ResponseEntity.ok().body(pagos);
     }
 
-    @GetMapping("/order/{idPedido}")
+    @GetMapping("/pedido/{idPedido}")
     public ResponseEntity<PagoDto> obtenerPagosPorPedido(@PathVariable Long idPedido) {
         try {
-            PagoDto pagos = pagoService.buscarPagoPorId(idPedido);
+            PagoDto pagos = pagoService.buscarPagoPorIdPedido(idPedido);
             return ResponseEntity.ok().body(pagos);
         } catch (PagoNotFoundException e) {
             return ResponseEntity.notFound().build();
