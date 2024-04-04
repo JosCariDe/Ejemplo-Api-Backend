@@ -200,14 +200,14 @@ public class ProductoControllerTest {
 
     @Test
     public void givenIdProducto_whenEliminarProducto_thenReturn200() throws Exception {
-        //given - precondition or setup
+        //given
         long idProducto = 1L;
         willDoNothing().given(productoService).removerProducto(idProducto);
 
-        // when - action or the behavior we are going to test
+        // when
         ResultActions response = mockMvc.perform(delete(API_PATH + "/{id}", idProducto));
 
-        // then - verify the output
+        // then
         response.andExpect(status().isOk())
                 .andDo(print());
     }
