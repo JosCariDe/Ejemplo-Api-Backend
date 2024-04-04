@@ -85,6 +85,43 @@ public class ClienteControllerTest {
 
 
     @Test
+    void obtenerTodosLosClientes_ReturnsListOfClientes() throws Exception {
+        // Arrange
+        List<ClienteDto> clientes = List.of(
+                ClienteDto.builder()
+                        .id(1L)
+                        .nombre("Jose")
+                        .direccion("Santa Marta")
+                        .email("jose@gmail.com")
+                        .pedidos(Collections.emptyList())
+                        .build(),
+                ClienteDto.builder()
+                        .id(2L)
+                        .nombre("Maria")
+                        .direccion("Bogota")
+                        .email("maria@gmail.com")
+                        .pedidos(Collections.emptyList())
+                        .build()
+        );
+        when(clienteService.getAllClientes()).thenReturn(clientes);
+
+        // Act & Assert
+        mockMvc.perform(get(API_PATH)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].nombre").value("Jose"))
+                .andExpect(jsonPath("$[0].direccion").value("Santa Marta"))
+                .andExpect(jsonPath("$[0].email").value("jose@gmail.com"))
+                .andExpect(jsonPath("$[1].id").value(2))
+                .andExpect(jsonPath("$[1].nombre").value("Maria"))
+                .andExpect(jsonPath("$[1].direccion").value("Bogota"))
+                .andExpect(jsonPath("$[1].email").value("maria@gmail.com"))
+                .andDo(print());
+    }
+
+
+    @Test
     void obtenerClientesPorEmail_ReturnsListOfClientes() throws Exception {
         // Arrange
         String email = "jose@gmail.com";

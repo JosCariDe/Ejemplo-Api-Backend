@@ -21,8 +21,8 @@ public record PedidoDto(Long id,
                         DetalleEnvioDto detalleEnvio)
 {
 
-    public List<ItemPedidoDto> itemPedidos() {
-        return Collections.unmodifiableList(itemPedidos);
-    }
+    //public List<ItemPedidoDto> itemPedidos() {
+      //  return Collections.unmodifiableList(itemPedidos);
+    //}
 
 }

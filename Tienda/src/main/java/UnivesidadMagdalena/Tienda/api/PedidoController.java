@@ -42,7 +42,7 @@ public class PedidoController {
         return ResponseEntity.ok().body(pedidos);
     }
 
-    @GetMapping("/cliente/{idCLiente}")
+    @GetMapping("/cliente/{idCliente}")
     public ResponseEntity<List<PedidoDto>> obtenerPedidosPorCliente(@PathVariable Long idCliente) {
         try {
             List<PedidoDto> pedidos = pedidoService.findPedidosConArticulosByCliente(idCliente);

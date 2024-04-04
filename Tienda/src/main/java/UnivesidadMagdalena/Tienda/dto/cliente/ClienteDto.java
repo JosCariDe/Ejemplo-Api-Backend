@@ -17,7 +17,7 @@ public record ClienteDto(Long id,
         return new ClienteDto(id, nombre, email, direccion, pedidos);
     }
 
-    public List<PedidoDto> pedidos() {
+    /*public List<PedidoDto> pedidos() {
         return Collections.unmodifiableList(pedidos);
-    }
+    } */
 }

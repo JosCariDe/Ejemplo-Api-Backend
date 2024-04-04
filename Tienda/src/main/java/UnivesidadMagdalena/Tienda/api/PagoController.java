@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/pago")
+@RequestMapping("/api/v1/pagos")
 public class PagoController {
 
     private final PagoService pagoService;

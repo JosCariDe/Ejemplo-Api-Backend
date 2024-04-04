@@ -33,6 +33,12 @@ public class ClienteController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<List<ClienteDto>> obtenerTodosLosClientes() {
+        List<ClienteDto> clientes = clienteService.getAllClientes();
+        return ResponseEntity.ok().body(clientes);
+    }
+
     @GetMapping("/email/{email}")
     public ResponseEntity<List<ClienteDto>> obtenerClientesPorEmail(@PathVariable String email) {
         try {
