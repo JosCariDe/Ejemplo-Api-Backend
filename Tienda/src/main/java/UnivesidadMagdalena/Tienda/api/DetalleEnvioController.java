@@ -13,7 +13,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/shipping")
+@RequestMapping("/api/v1/detalle-envio")
 public class DetalleEnvioController {
 
     private final DetalleEnvioService detalleEnvioService;
